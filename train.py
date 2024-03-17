@@ -87,8 +87,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-wp","--wandb_project",help="Project name used to track experiments in Weights & Biases dashboard",default="dl-assigment-1")
 parser.add_argument("-we","--wandb_entity",help="Wandb Entity used to track experiments in the Weights & Biases dashboard.",default="cs23m007")
 parser.add_argument("-d","--dataset",help="choices: ['mnist', 'fashion_mnist']",choices=['mnist', 'fashion_mnist'],default="fashion_mnist")
-parser.add_argument("-e","--epochs",help="Number of epochs to train neural network.",choices=[5,10],default=10)
-parser.add_argument("-b","--batch_size",help="Batch size used to train neural network.",choices=[16,32,64],default=32)
+parser.add_argument("-e","--epochs",help="Number of epochs to train neural network.",choices=['5','10'],default=10)
+parser.add_argument("-b","--batch_size",help="Batch size used to train neural network.",choices=['16','32','64'],default=32)
 parser.add_argument("-l","--loss",help="choices: ['mean_squared_error', 'cross_entropy']",choices=['cross_entropy','mean_squared_error'],default='cross_entropy')
 parser.add_argument("-o","--optimizer",help="choices: ['sgd', 'momentum', 'nag', 'rmsprop', 'adam', 'nadam']",choices=['sgd','momentum','nag','rmsprop','adam','nadam'],default='nadam')
 parser.add_argument("-lr","--learning_rate",help="Learning rate used to optimize model parameters",choices=['1e-3','1e-4'],default='1e-3')
@@ -857,6 +857,20 @@ def train(trainX,trainy,textX,testy,number_hidden_layers,hidden_layer_size,eta,i
     hL,weights,biases,plot_list = nadam(trainX,trainy,number_hidden_layers,hidden_layer_size,eta,init_type,activation_function,epochs,output_function,mini_batch_size,loss_function,weight_decay_const,wandb_flag)
     params = [weights,biases,number_hidden_layers,activation_function,output_function]
     return params
+
+if type(args.num_layers)==str:
+  args.num_layers = int(args.num_layers)
+if type(args.hidden_size)==str:
+  args.hidden_size = int(args.hidden_size)
+if type(args.learning_rate)==str:
+  args.learning_rate = float(args.learning_rate)
+if type(args.epochs)==str:
+  args.epochs = int(args.epochs)
+if type(args.batch_size)==str:
+  args.batch_size = int(args.batch_size)
+if type(args.weight_decay)==str:
+  args.weight_decay = int(args.weight_decay)
+
 
 params = train(trainX=trainX,
     trainy=trainy,
